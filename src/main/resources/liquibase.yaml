@@ -1,0 +1,9 @@
+url: jdbc:postgresql://localhost:5432/solirius
+username: solirius
+password: solirius
+driver: org.postgresql.Driver
+
+changeLogFile: src/main/resources/db/changelog/db.changelog-master.yaml
+referenceUrl: hibernate:spring:com.solirius.java.domain?dialect=org.hibernate.dialect.PostgreSQL94Dialect
+#referenceUrl: hibernate:spring:com.solirius.java.domain?dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+

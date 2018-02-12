@@ -1,0 +1,29 @@
+databaseChangeLog:
+- objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+- changeSet:
+    id: 1518448934615-1
+    author: alec (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: uuid
+            type: UUID
+        - column:
+            name: cusine
+            type: VARCHAR(255)
+        - column:
+            name: name
+            type: VARCHAR(255)
+        tableName: MarketStall
+- changeSet:
+    id: 1518448934615-2
+    author: alec (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: uuid
+        constraintName: MarketStallPK
+        tableName: MarketStall
+

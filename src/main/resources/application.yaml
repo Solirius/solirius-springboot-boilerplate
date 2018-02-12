@@ -1,8 +1,44 @@
 spring:
-  database:
-    driverClassName: org.h2.Driver
   datasource:
-    url: jdbc:h2:build/h2_db/test;DB_CLOSE_ON_EXIT=FALSE
-    platform: h2
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/solirius}
+    platform: postgresql
+    username: ${SPRING_DATASOURCE_USERNAME:solirius}
+    password: ${SPRING_DATASOURCE_PASSWORD:solirius}
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    database: postgresql
+    show-sql: ${SHOW_SQL:true}
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+server:
+  port: ${SERVER_PORT:8080}
+
+liquibase:
+ enabled: true
+ change-log: classpath:/db/changelog/db.changelog-master.yaml
+
+# Mysql Example
+#spring:
+#  datasource:
+#    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/solirius}
+#    platform: mysql
+#    username: ${SPRING_DATASOURCE_USERNAME:solirius}
+#    password: ${SPRING_DATASOURCE_PASSWORD:solirius}
+#  jpa:
+#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    database: mysql
+#    show-sql: ${SHOW_SQL:true}
+#    hibernate:
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+
+# H2 Example
+#spring:
+#  datasource:
+#    url: jdbc:h2:build/h2_db/test;DB_CLOSE_ON_EXIT=FALSE
+#    platform: h2
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
