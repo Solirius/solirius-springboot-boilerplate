@@ -18,13 +18,48 @@ tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
+
 //    XLINT
 compileJava {
-    options.compilerArgs << '-parameters' << '-Xlint:deprecation'
+  options.compilerArgs << '-parameters' << '-Xlint:deprecation'
 }
 
 compileTestJava {
-    options.compilerArgs << '-parameters' << '-Xlint:deprecation'
+  options.compilerArgs << '-parameters' << '-Xlint:deprecation'
+}
+
+test {
+  testLogging {
+    events "passed", "skipped", "failed"
+    exceptionFormat "full"
+  }
+}
+
+tasks.withType(Test) {
+  maxParallelForks = 1
+}
+
+checkstyle {
+  maxWarnings = 0
+  toolVersion = '8.7'
+  // need to set configDir to rootDir otherwise submodule will use submodule/config/checkstyle
+  configDir = new File(rootDir, 'config/checkstyle')
+}
+
+pmd {
+  toolVersion = "5.8.1"
+  ignoreFailures = true
+  sourceSets = [sourceSets.main, sourceSets.test]
+  reportsDir = file("$project.buildDir/reports/pmd")
+  ruleSetFiles = files("config/pmd/ruleset.xml")
+}
+
+//    Report Check Style added by Alex
+tasks.withType(Checkstyle) {
+  reports {
+    xml.enabled false
+    html.enabled true
+  }
 }
 
 

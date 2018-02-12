@@ -14,21 +14,21 @@ public class MarketStallService {
     private MarketStallRepository marketStallRepository;
 
     @Autowired
-    public MarketStallService(MarketStallRepository marketStallRepository){
+    public MarketStallService(MarketStallRepository marketStallRepository) {
         this.marketStallRepository = marketStallRepository;
     }
 
-    public MarketStall createdMarketStall(MarketStall marketStall){
+    public MarketStall createdMarketStall(MarketStall marketStall) {
         return marketStallRepository.save(marketStall);
     }
 
-    public MarketStall retriveMarketStall(UUID uuid){
+    public MarketStall retriveMarketStall(UUID uuid) {
         return marketStallRepository.findOne(uuid);
     }
 
-    public void updateMarektStall(UUID uuid, MarketStall marketStall){
+    public void updateMarektStall(UUID uuid, MarketStall marketStall) {
         MarketStall orgMarketStall = retriveMarketStall(uuid);
-        if(orgMarketStall != null){
+        if (orgMarketStall != null) {
             orgMarketStall.setName(marketStall.getName());
             orgMarketStall.setCusine(marketStall.getCusine());
             marketStallRepository.save(orgMarketStall);
@@ -37,7 +37,7 @@ public class MarketStallService {
         }
     }
 
-    public void deleteMarketStall(UUID uuid){
+    public void deleteMarketStall(UUID uuid) {
         marketStallRepository.delete(uuid);
     }
 

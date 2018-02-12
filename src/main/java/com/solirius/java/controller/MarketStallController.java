@@ -15,19 +15,19 @@ public class MarketStallController {
     private MarketStallService marketStallService;
 
     @Autowired
-    public MarketStallController(MarketStallService marketStallService){
+    public MarketStallController(MarketStallService marketStallService) {
         this.marketStallService = marketStallService;
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<MarketStall> postMarketStall(@RequestBody MarketStall marketStall){
+    public ResponseEntity<MarketStall> postMarketStall(@RequestBody MarketStall marketStall) {
         return ResponseEntity.ok(marketStallService.createdMarketStall(marketStall));
     }
 
     @GetMapping(value = "{uuid}")
-    public ResponseEntity<MarketStall> getMarketStall(@PathVariable UUID uuid){
+    public ResponseEntity<MarketStall> getMarketStall(@PathVariable UUID uuid) {
         MarketStall marketStall = marketStallService.retriveMarketStall(uuid);
-        if(marketStall != null){
+        if (marketStall != null) {
             return ResponseEntity.ok(marketStall);
         } else {
             return  ResponseEntity.notFound().build();
@@ -35,13 +35,13 @@ public class MarketStallController {
     }
 
     @PutMapping(value = "{uuid}")
-    public ResponseEntity<MarketStall> deleteMarketStall(@PathVariable UUID uuid,@RequestBody MarketStall marketStall){
+    public ResponseEntity<MarketStall> deleteMarketStall(@PathVariable UUID uuid,@RequestBody MarketStall marketStall) {
         marketStallService.updateMarektStall(uuid,marketStall);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(value = "{uuid}")
-    public ResponseEntity<MarketStall> deleteMarketStall(@PathVariable UUID uuid){
+    public ResponseEntity<MarketStall> deleteMarketStall(@PathVariable UUID uuid) {
         marketStallService.deleteMarketStall(uuid);
         return ResponseEntity.noContent().build();
     }
