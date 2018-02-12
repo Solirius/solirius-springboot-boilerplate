@@ -1,0 +1,109 @@
+plugins {
+    id 'application'
+    id 'checkstyle'
+    id 'pmd'
+    id 'io.spring.dependency-management' version '1.0.4.RELEASE'
+    id 'org.springframework.boot' version '1.5.9.RELEASE'
+    id 'com.github.ben-manes.versions' version '0.17.0'
+    id 'jacoco'
+    id 'idea'
+}
+group = 'com.solirius'
+version = '0.0.1'
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+//    XLINT
+compileJava {
+    options.compilerArgs << '-parameters' << '-Xlint:deprecation'
+}
+
+compileTestJava {
+    options.compilerArgs << '-parameters' << '-Xlint:deprecation'
+}
+
+
+repositories {
+    jcenter()
+    mavenLocal()
+}
+
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'1.5.10.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version:'1.5.10.RELEASE'
+
+    compile group: 'com.h2database', name: 'h2', version: '1.0.60'
+
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'1.5.10.RELEASE'
+}
+
+
+
+
+def coverageExclusionList = [
+        '**com/solirius/java/domain/',
+        '**com/solirius/java/App.java',
+        '**com/solirius/java/hateos/*',
+        '**com/solirius/java/exception/*',
+        '**com/solirius/java/domain/*',
+        '**com/solirius/java/commandobject/*',
+        '**com/solirius/java/hibernate/*',
+        '**com/solirius/java/config/**/*',
+]
+
+//(jacocoTestReport | jacocoTestCoverageVerification)
+jacoco {
+    toolVersion = '0.7.9' // jacocoMavenPluginVersion
+    reportsDir = file("$buildDir/reports/jacoco")
+}
+
+jacocoTestReport {
+    executionData(test)
+
+    reports {
+        xml.enabled = true
+        csv.enabled = true
+    }
+
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: coverageExclusionList)
+        })
+    }
+}
+
+
+//(./gradlew clean jar) build/libs/em-api-*-all.jar
+//(./gradlew installDist bootRepackage) build/install/em-annotation-app/bin/em-annotation-app
+jar {
+    baseName rootProject.name
+    manifest {
+        attributes 'Implementation-Title': project.name, 'Implementation-Version': project.version
+    }
+}
+
+bootRepackage {
+    classifier 'all'
+}
+
+//This is used in get the version for fakeversion and buildInfo  (./gradlew -q printVersion)
+task printVersion {
+    description 'Prints the version of this project'
+    doLast {
+        print project.version
+    }
+}
+
+// Run the app (./gradlew run -Ddebug=true)
+run {
+    def debug = System.getProperty("debug")
+    if (debug == 'true') {
+        jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005']
+    }
+}
