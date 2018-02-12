@@ -1,0 +1,51 @@
+version: '2.1'
+
+services:
+  solirius-springboot-bolierplate:
+    build:
+      context: .
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://solirius-springboot-bolierplate-postgres-db/solirius
+      - SPRING_DATASOURCE_USERNAME=solirius
+      - SPRING_DATASOURCE_PASSWORD=solirius
+    links:
+        - solirius-springboot-bolierplate-postgres-db
+#        - solirius-springboot-bolierplate-mysql-db
+    depends_on:
+        - solirius-springboot-bolierplate-postgres-db
+#        - solirius-springboot-bolierplate-mysql-db
+    ports:
+      # check .env
+      - 8080:8080
+      - 5050:5050
+
+  solirius-springboot-bolierplate-postgres-db:
+      image: postgres
+      restart: always
+      environment:
+      - POSTGRES_USER=solirius
+      - POSTGRES_PASSWORD=solirius
+      - POSTGRES_DB=solirius
+      ports:
+      - 5432:5432
+
+
+  solirius-springboot-bolierplate-mysql-db:
+    image: mysql
+    restart: always
+    environment:
+    - MYSQL_ROOT_PASSWORD=solirius
+    - MYSQL_USER=solirius
+    - MYSQL_PASSWORD=solirius
+    - MYSQL_DATABASE=solirius
+    ports:
+    - 3306:3306
+
+
+# login with root:password at localhost:8080
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+    - 8000:8080

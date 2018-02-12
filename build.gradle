@@ -121,8 +121,8 @@ jacocoTestReport {
 }
 
 
-//(./gradlew clean jar) build/libs/em-api-*-all.jar
-//(./gradlew installDist bootRepackage) build/install/em-annotation-app/bin/em-annotation-app
+//(./gradlew clean jar) build/libs/solirius-springboot-bolierplate-*-all.jar.jar
+//(./gradlew installDist bootRepackage) build/install/solirius-springboot-bolierplate/bin/solirius-springboot-bolierplate
 jar {
   baseName rootProject.name
   manifest {
